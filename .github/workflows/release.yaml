@@ -17,6 +17,10 @@ jobs:
         run: |
           zip -r source_code.zip .  # Create ZIP file of the source code
 
+      - name: Wait before creating TAR.GZ file (to avoid file modification during archiving)
+        run: |
+          sleep 5  # Wait for 5 seconds to ensure no file is being modified
+
       - name: Create TAR.GZ file
         run: |
           tar -czvf source_code.tar.gz .  # Create TAR.GZ file of the source code
