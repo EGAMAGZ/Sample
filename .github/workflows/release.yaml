@@ -1,8 +1,8 @@
-name: Release
+name: Release Assets
 
 on:
   release:
-    types: [published]
+
   workflow_dispatch:
 
 jobs:
@@ -10,15 +10,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Create ZIP file
-        run: |
-          zip -r source_code.zip .  # Create ZIP file of the source code
-  
-      - name: Upload Release Assets
-        uses: ncipollo/release-action@v1
-        with:
-          files: |
-            source_code.zip
+    - name: Create ZIP file
+      run: |
+        mkdir release
+        zip -r release/code.zip src/
+
+    - name: Create tar.gz file
+      run: |
+        tar -czf release/code.tar.gz .
+
+    - name: Crear archivo TAR.BZ2
+      run: |
+        tar -cjf release/code.tar.bz2 .
+
+    - name: Subir archivos como release assets
+      uses: softprops/action-gh-release@v1
+      with:
+        files: release/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
