@@ -29,5 +29,4 @@ jobs:
         with:
           files: |
             source_code.zip
-            source_code.tar.gz
             source_code.7z
