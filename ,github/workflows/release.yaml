@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create ZIP file
+        run: |
+          zip -r source_code.zip .  # Create ZIP file of the source code
+
+      - name: Create TAR.GZ file
+        run: |
+          tar -czvf source_code.tar.gz .  # Create TAR.GZ file of the source code
+
+      - name: Create 7Z file (requires 7zip)
+        run: |
+          sudo apt-get install p7zip-full
+          7z a source_code.7z .  # Create 7Z file of the source code
+
+      - name: Upload Release Assets
+        uses: ncipollo/release-action@v1
+        with:
+          files: |
+            source_code.zip
+            source_code.tar.gz
+            source_code.7z
