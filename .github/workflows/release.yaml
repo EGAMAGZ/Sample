@@ -16,17 +16,9 @@ jobs:
       - name: Create ZIP file
         run: |
           zip -r source_code.zip .  # Create ZIP file of the source code
-
-      - name: Create 7Z file (requires 7zip)
-        run: |
-          set -x  # Enable debug output
-          sudo apt-get update
-          sudo apt-get install -y p7zip-full || { echo '7zip installation failed!'; exit 1; }
-          7z a source_code.7z .  # Create 7Z file of the source code
-
+  
       - name: Upload Release Assets
         uses: ncipollo/release-action@v1
         with:
           files: |
             source_code.zip
-            source_code.7z
